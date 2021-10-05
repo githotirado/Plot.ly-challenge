@@ -27,16 +27,7 @@ bioSamples.then(function(a) {
             .append("option")
             .text(namesArray[i])
             .property('value', namesArray[i]);
-    }
-
-    // Function to address the selection in the dropdown menu
-    function optionChanged(myvalue) {
-        var dropdownMenu = d3.select("#selDataset");
-        console.log(`d3 event target: ${d3.event.target}`);
-        console.log(`d3 event target value : ${d3.event.target.value}`);
-
-    }
-    
+    }    
 
     // Add an element and/or style it:  
     // First, var li_new = d3.select(ID/class).append("li")
@@ -69,6 +60,12 @@ bioSamples.then(function(a) {
         
         Plotly.newPlot("bar", data, layout);
     }
+
+    // Demographic information
+    var demotab = d3.select("#sample-metadata")
+    // Add rows like this from metatab array.  Loop through.
+    // <h5>Id: 940</h5>
+    // <h5>ethnicity: Caucasian</h5>
 });
 
 
