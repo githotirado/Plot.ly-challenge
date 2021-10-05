@@ -1,6 +1,7 @@
 // Use d3 library to read in samples.js
 const bioSamples = d3.json('samples.json');
 
+// Allow time for promise to complete.
 bioSamples.then(function(a) {
 	// console.log(a.samples[0]['otu_ids']);
     console.log(a);
@@ -20,20 +21,22 @@ bioSamples.then(function(a) {
 
     initPlot();
 
-    // Use D3 to select the dropdown menu
-    var dropdownMenu = d3.select("#selDataset");
-    // Use the names array to populate the dropdown menu
+    // Use the imported namesArray to populate the dropdown menu
     for (i = 0; i < namesArray.length; i++) {
-        d3.select("#selDataset").append("option").text(namesArray[i]);
+        d3.select("#selDataset")
+            .append("option")
+            .text(namesArray[i])
+            .property('value', namesArray[i]);
     }
-    // var opt1 = d3.select("#selDataset").append("option").text("904");
 
-    // // Create a new element (2 step method: create element, change it)
-    // var li1 = d3.select("ul").append("li");
-    // li1.text("A new item has been added!");
+    // Function to address the selection in the dropdown menu
+    function optionChanged(myvalue) {
+        var dropdownMenu = d3.select("#selDataset");
+        console.log(`d3 event target: ${d3.event.target}`);
+        console.log(`d3 event target value : ${d3.event.target.value}`);
 
-    // // Use chaining to create a new element and set its text (single step)
-    // var li2 = d3.select("ul").append("li").text("Another new item!");
+    }
+    
 
     // Add an element and/or style it:  
     // First, var li_new = d3.select(ID/class).append("li")
