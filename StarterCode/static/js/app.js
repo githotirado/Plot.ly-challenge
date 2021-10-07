@@ -18,7 +18,7 @@ function plotCharts(myID) {
         // * Use `otu_ids` as the labels, mapping "OTU " in front of each number
         // * Use `otu_labels` as the hovertext.
     // Already sorted by sample_values, so take the first 10 items to map TOP 10
-    let title = `Top 10 OTU samples for Test Subject ${myID}`;
+    let title = `Top 10 OTU samples`;
     let labels = mySamples[0]['otu_ids'].slice(0, 10).map(a => "OTU " + a).reverse();
     let values = mySamples[0]['sample_values'].slice(0, 10).reverse();
     let hovertext = mySamples[0]['otu_labels'].slice(0, 10).reverse();
@@ -45,7 +45,7 @@ function plotCharts(myID) {
         // Use sample_values for the marker size.
         // Use otu_ids for the marker colors.
         // Use otu_labels for the text values.
-    let bTitle = `OTU samples for Test Subject ${myID}`;
+    let bTitle = `OTU Samples Size by OTU IDs`;
     let xValues = mySamples[0]['otu_ids'];
     let yValues = mySamples[0]['sample_values'];
     let mText   = mySamples[0]['otu_labels'];
@@ -68,7 +68,7 @@ function plotCharts(myID) {
     let layoutBubble = {
         title: bTitle,
         height: 600,
-        width: 800
+        width: 1200
     };
     
     Plotly.newPlot("bubble", dataBubble, layoutBubble);
@@ -78,8 +78,24 @@ function plotCharts(myID) {
         {
             domain: { x: [0, 1], y: [0, 1] },
             value: wfreq,
-            title: { text: "Speed" },
+            title: { text: `Belly Button Washing Frequency Scrubs per Week`},
             type: "indicator",
+            gauge: {
+                axis: { 
+                    range: [null, 9] 
+                },
+                steps: [
+                    { range: [1, 2], color: "antiquewhite" },
+                    { range: [0, 1], color: "navajowhite" },
+                    { range: [8, 9], color: "darkgreen" },
+                    { range: [3, 4], color: "darkseagreen" },
+                    { range: [4, 5], color: "lightgreen" },
+                    { range: [6, 7], color: "forestgreen" },
+                    { range: [5, 6], color: "yellowgreen" },
+                    { range: [2, 3], color: "greenyellow" },
+                    { range: [7, 8], color: "green" }
+                  ],
+            },
             mode: "gauge+number"
         }
     ];
@@ -115,7 +131,6 @@ function showDemographics(myID) {
 
 // Function to address the selection in the dropdown menu. Redraw
 function optionChanged(myValue) {
-    // var dropdownMenu = d3.select("#selDataset");
     console.log(`User selected ${myValue}`);
     plotCharts(myValue);
     showDemographics(myValue);
@@ -125,7 +140,7 @@ function optionChanged(myValue) {
 // main function to initialize dashboard at first nameID record
 function init() {
     // Use d3 library to read in samples.json
-    const bioSamples = d3.json('samples.json');
+    const bioSamples = d3.json('./data/samples.json');
 
     // Set up the promise, set up initial elements when complete
     bioSamples.then(function(myData) {
