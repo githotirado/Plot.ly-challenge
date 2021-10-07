@@ -9,12 +9,12 @@ function PlotCharts(myID) {
     let mySamples = samplesArray.filter(s => s.id == myID);
     console.log(mySamples);
 
-    // Already sorted by sample_values, so take top 10 for items to map
-        // For bar chart (use 'reverse()' to have taller bars on top):
+    // For bar chart (use 'reverse()' to have taller bars on top):
         // * Use `sample_values` as the values.
         // * Use `otu_ids` as the labels, mapping "OTU " in front of each number
         // * Use `otu_labels` as the hovertext.
-    let title = `Test Title`;
+    // Already sorted by sample_values, so take the first 10 items to map TOP 10
+    let title = `Bar Title`;
     let labels = mySamples[0]['otu_ids'].slice(0, 10).map(a => "OTU " + a).reverse();
     let values = mySamples[0]['sample_values'].slice(0, 10).reverse();
     let hovertext = mySamples[0]['otu_labels'].slice(0, 10).reverse();
@@ -34,6 +34,38 @@ function PlotCharts(myID) {
     };
     
     Plotly.newPlot("bar", dataBar, layoutBar);
+
+    // For bubble chart
+        // Use otu_ids for the x values (exclude "OTU " for scatter)
+        // Use sample_values for the y values.
+        // Use sample_values for the marker size.
+        // Use otu_ids for the marker colors.
+        // Use otu_labels for the text values.
+    let bTitle = `Bubble Title`;
+    // let xValues = mySamples[0]['otu_ids'].map(a => "OTU " + a);
+    xValues = mySamples[0]['otu_ids'];
+    let yValues = mySamples[0]['sample_values'];
+    let mText   = mySamples[0]['otu_labels'];
+    let mColors = xValues;
+    let mSize   = yValues;
+    
+    // Plot the bubble chart
+    let traceBubble = {
+        x: xValues,
+        y: yValues,
+        mode: "markers",
+        marker: {
+            size: mSize,
+            color: mColors
+        }
+    };
+    let dataBubble = [traceBubble];
+
+    let layoutBubble = {
+        title: bTitle
+    };
+    
+    Plotly.newPlot("bubble", dataBubble, layoutBubble);
 }
 
 //     // Demographic information
