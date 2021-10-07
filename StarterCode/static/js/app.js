@@ -5,6 +5,7 @@
 // Functions section
 //
 
+// Draw the bar, bubble charts based on nameID
 function plotCharts(myID) {
     // Filter for the array with records containing myID
     let mySamples = samplesArray.filter(s => s.id == myID);
@@ -70,14 +71,16 @@ function plotCharts(myID) {
     Plotly.newPlot("bubble", dataBubble, layoutBubble);
 }
 
+// Clear and populate the demographics panel
 function showDemographics(myID) {
     // Filter for the meta records having myID, split into keys/values
     let metaRecord = metaDataArray.filter(s => s.id == myID);
     var metaKeys = Object.keys(metaRecord[0]);
     var metaValues = Object.values(metaRecord[0]);
 
-    // Select the section in the HTML to insert metadata
+    // Select the section in the HTML to clear then insert metadata
     var demotab = d3.select(".panel-body");
+    demotab.html("");   // Clear previous metadata
     
     // Loop metaRecord (metaKeys, metaValues), add demographics to panel
     for (let j = 0; j < metaKeys.length; j++) {
@@ -85,25 +88,7 @@ function showDemographics(myID) {
     }
 };
 
-//     console.log("Current Number chosen is");
-//     console.log(d3.select("#selDataset").attr("onchange"));
-//     // Add rows like this from metatab array.  Loop through.
-//         // console.log(`Metadata ethnicity is ${a.metadata[0]['ethnicity']}`);
-
-//     // Iterate through each student/grade pair
-//     // samplesArray.forEach(([student, grade]) => {
-//     var meta940 = metaDataArray[0]
-//     });
-//     console.log(`meta940 value: ${meta940.id}`);
-//         // Append one table row per student/grade
-//         var row = tbody.append("tr");
-    
-//         // append one cell for the student and one cell for the grade
-//         row.append("td").text(student);
-//         row.append("td").text(grade);
-//     // });
-// });
-
+// main function to initialize dashboard at first nameID record
 function init() {
     // Use d3 library to read in samples.json
     const bioSamples = d3.json('samples.json');
@@ -132,4 +117,5 @@ function init() {
     });
 }
 
+// Call the initialize function
 init();
