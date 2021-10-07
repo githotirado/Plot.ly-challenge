@@ -1,8 +1,9 @@
-//     initPlot();
-  
 //     // How to Add an element and/or style it:  
 //     // First, var li_new = d3.select(ID/class).append("li")
 //     // Li_new.text("This is the new item").style("color","red"); 
+//
+// Functions section
+//
 
 function PlotCharts(myID) {
     // Filter for the array with records containing myID
@@ -42,8 +43,7 @@ function PlotCharts(myID) {
         // Use otu_ids for the marker colors.
         // Use otu_labels for the text values.
     let bTitle = `Bubble Title`;
-    // let xValues = mySamples[0]['otu_ids'].map(a => "OTU " + a);
-    xValues = mySamples[0]['otu_ids'];
+    let xValues = mySamples[0]['otu_ids'];
     let yValues = mySamples[0]['sample_values'];
     let mText   = mySamples[0]['otu_labels'];
     let mColors = xValues;
@@ -53,6 +53,7 @@ function PlotCharts(myID) {
     let traceBubble = {
         x: xValues,
         y: yValues,
+        text: mText,
         mode: "markers",
         marker: {
             size: mSize,
@@ -62,7 +63,8 @@ function PlotCharts(myID) {
     let dataBubble = [traceBubble];
 
     let layoutBubble = {
-        title: bTitle
+        title: bTitle,
+        width: 800
     };
     
     Plotly.newPlot("bubble", dataBubble, layoutBubble);
@@ -109,8 +111,8 @@ function init() {
     // Set up the promise, set up initial elements when complete
     bioSamples.then(function(myData) {
         console.log(myData);
-        // Capture each top level array. !! Leave as GLOBAL (no declaration)
-        //   for access by other functions!!
+        // Capture each top level array. Leave as GLOBAL (no declaration)
+        //   because other functions access them!!
         namesArray = Object.values(myData.names);
         metaDataArray = Object.values(myData.metadata);
         samplesArray = Object.values(myData.samples);
@@ -126,7 +128,6 @@ function init() {
         // Get first subject ID number.  Set up initial dashboard/charts with it
         var firstID = namesArray[0];
         PlotCharts(firstID);
-        // PlotCharts("943");
     });
 }
 
