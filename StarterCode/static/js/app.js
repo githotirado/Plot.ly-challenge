@@ -5,7 +5,7 @@
 // Functions section
 //
 
-function PlotCharts(myID) {
+function plotCharts(myID) {
     // Filter for the array with records containing myID
     let mySamples = samplesArray.filter(s => s.id == myID);
     console.log(mySamples);
@@ -70,6 +70,25 @@ function PlotCharts(myID) {
     Plotly.newPlot("bubble", dataBubble, layoutBubble);
 }
 
+function showDemographics(myID) {
+    // Filter for the array with meta records containing myID
+    let myMeta = metaDataArray.filter(s => s.id == myID);
+    console.log(myMeta[0].ethnicity);
+    console.log(myMeta);
+
+    // Select the section in the HTML to insert metadata
+    var demotab = d3.select(".panel-body");
+    var metaKeys = Object.keys(myMeta[0]);
+    var metaValues = Object.values(myMeta[0]);
+    console.log(metaKeys);
+    console.log(metaValues);
+    // var testArray = myMeta.map(function(attrib, key) {
+    //     console.log(`attribute is ${attrib} index is ${myMeta[0][key]}`)
+    //     // demotab.append("h5").text(`${attrib[0]}: ${key[0]}`);
+    // });
+    // Loop through myMeta and add demographic information
+    // demotab.append("h5").text(myMeta[0].ethnicity);
+};
 //     // Demographic information
 //     var demotab = d3.select(".panel-body");
 //     demotab.append("h5").text("Id: 940");
@@ -127,7 +146,8 @@ function init() {
 
         // Get first subject ID number.  Set up initial dashboard/charts with it
         var firstID = namesArray[0];
-        PlotCharts(firstID);
+        plotCharts(firstID);
+        showDemographics(firstID);
     });
 }
 
