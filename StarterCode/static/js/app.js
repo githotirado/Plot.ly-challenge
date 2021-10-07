@@ -81,7 +81,12 @@ function showDemographics(myID) {
     var metaKeys = Object.keys(myMeta[0]);
     var metaValues = Object.values(myMeta[0]);
     console.log(metaKeys);
+    console.log(metaKeys.length);
     console.log(metaValues);
+    // Loop through myMeta and add demographic information
+    for (let j = 0; j < metaKeys.length; j++) {
+        demotab.append("h5").text(`${metaKeys[j]}: ${metaValues[j]}`);
+    }
     // var testArray = myMeta.map(function(attrib, key) {
     //     console.log(`attribute is ${attrib} index is ${myMeta[0][key]}`)
     //     // demotab.append("h5").text(`${attrib[0]}: ${key[0]}`);
