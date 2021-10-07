@@ -15,7 +15,7 @@ function plotCharts(myID) {
         // * Use `otu_ids` as the labels, mapping "OTU " in front of each number
         // * Use `otu_labels` as the hovertext.
     // Already sorted by sample_values, so take the first 10 items to map TOP 10
-    let title = `Bar Title`;
+    let title = `Top 10 OTU samples for Test Subject ${myID}`;
     let labels = mySamples[0]['otu_ids'].slice(0, 10).map(a => "OTU " + a).reverse();
     let values = mySamples[0]['sample_values'].slice(0, 10).reverse();
     let hovertext = mySamples[0]['otu_labels'].slice(0, 10).reverse();
@@ -42,7 +42,7 @@ function plotCharts(myID) {
         // Use sample_values for the marker size.
         // Use otu_ids for the marker colors.
         // Use otu_labels for the text values.
-    let bTitle = `Bubble Title`;
+    let bTitle = `OTU samples for Test Subject ${myID}`;
     let xValues = mySamples[0]['otu_ids'];
     let yValues = mySamples[0]['sample_values'];
     let mText   = mySamples[0]['otu_labels'];
@@ -71,38 +71,19 @@ function plotCharts(myID) {
 }
 
 function showDemographics(myID) {
-    // Filter for the array with meta records containing myID
-    let myMeta = metaDataArray.filter(s => s.id == myID);
-    console.log(myMeta[0].ethnicity);
-    console.log(myMeta);
+    // Filter for the meta records having myID, split into keys/values
+    let metaRecord = metaDataArray.filter(s => s.id == myID);
+    var metaKeys = Object.keys(metaRecord[0]);
+    var metaValues = Object.values(metaRecord[0]);
 
     // Select the section in the HTML to insert metadata
     var demotab = d3.select(".panel-body");
-    var metaKeys = Object.keys(myMeta[0]);
-    var metaValues = Object.values(myMeta[0]);
-    console.log(metaKeys);
-    console.log(metaKeys.length);
-    console.log(metaValues);
-    // Loop through myMeta and add demographic information
+    
+    // Loop metaRecord (metaKeys, metaValues), add demographics to panel
     for (let j = 0; j < metaKeys.length; j++) {
         demotab.append("h5").text(`${metaKeys[j]}: ${metaValues[j]}`);
     }
-    // var testArray = myMeta.map(function(attrib, key) {
-    //     console.log(`attribute is ${attrib} index is ${myMeta[0][key]}`)
-    //     // demotab.append("h5").text(`${attrib[0]}: ${key[0]}`);
-    // });
-    // Loop through myMeta and add demographic information
-    // demotab.append("h5").text(myMeta[0].ethnicity);
 };
-//     // Demographic information
-//     var demotab = d3.select(".panel-body");
-//     demotab.append("h5").text("Id: 940");
-//     demotab.append("h5").text("ethnicity: Caucasian");
-//     demotab.append("h5").text("gender: F");
-//     demotab.append("h5").text("age: 24");
-//     demotab.append("h5").text("location: Beaufort/NC");
-//     demotab.append("h5").text("bbtype: I");
-//     demotab.append("h5").text("wfreq: 2");
 
 //     console.log("Current Number chosen is");
 //     console.log(d3.select("#selDataset").attr("onchange"));
@@ -112,11 +93,6 @@ function showDemographics(myID) {
 //     // Iterate through each student/grade pair
 //     // samplesArray.forEach(([student, grade]) => {
 //     var meta940 = metaDataArray[0]
-//     metaDataArray.forEach(([ethnicity, age]) => {
-//         console.log("Got here");
-//         // Var row = tbody.append("tr");
-//         // Row.append("td").text(student);
-//         // Row.append("td").text(grade);
 //     });
 //     console.log(`meta940 value: ${meta940.id}`);
 //         // Append one table row per student/grade

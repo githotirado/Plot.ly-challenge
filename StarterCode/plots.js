@@ -1,6 +1,8 @@
 // Function to address the selection in the dropdown menu
-function optionChanged(myvalue) {
+function optionChanged(myValue) {
     var dropdownMenu = d3.select("#selDataset");
-    console.log(`You selected ${myvalue}`);
+    console.log(`You selected ${myValue}`);
+    plotCharts(myValue);
+    showDemographics(myValue);
 
 }
