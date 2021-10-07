@@ -35,31 +35,33 @@
 
 
 
-//     // For bar chart:
-//     // * Use `sample_values` as the values.
-//     // * Use `otu_ids` as the labels.
-//     // * Use `otu_labels` as the hovertext.
-//     function initPlot() {
-//         let title = `Test Title`;
-//         let labels = samplesArray[0]['otu_ids'];
-//         let values = samplesArray[0]['sample_values'];
-//         let hovertext = samplesArray[0]['otu_labels'];
+// For bar chart:
+// * Use `sample_values` as the values.
+// * Use `otu_ids` as the labels.
+// * Use `otu_labels` as the hovertext.
+function barPlot(myID) {
+    let values = samplesArray.filter(s => s.id == myID);
+    console.log(`barPlot sampleValues is ${values[0].otu_ids}`);
+    let title = `Test Title`;
+    let labels = samplesArray[0]['otu_ids'];
+    // let values = samplesArray[0]['sample_values'];
+    let hovertext = samplesArray[0]['otu_labels'];
 
-//         let trace1 = {
-//         x: values,
-//         y: labels,
-//         text: hovertext,
-//         type: "bar",
-//         orientation: "h"
-//         };
-//         let data = [trace1];
+    let trace1 = {
+    x: values[0],
+    y: labels,
+    text: hovertext,
+    type: "bar",
+    orientation: "h"
+    };
+    let data = [trace1];
 
-//         let layout = {
-//         title: title
-//         };
-        
-//         Plotly.newPlot("bar", data, layout);
-//     }
+    let layout = {
+    title: title
+    };
+    
+    Plotly.newPlot("bar", data, layout);
+}
 
 //     // Demographic information
 //     var demotab = d3.select(".panel-body");
@@ -100,13 +102,14 @@ function init() {
     const bioSamples = d3.json('samples.json');
 
     // Allow time for promise to complete.
-    bioSamples.then(function(a) {
-        // console.log(a.samples[0]['otu_ids']);
-        console.log(a);
-        var namesArray = Object.values(a.names);
-        var metaDataArray = Object.values(a.metadata);
-        var samplesArray = Object.values(a.samples);
+    bioSamples.then(function(myData) {
+        console.log(myData);
+        // Capture each top level array. Leave GLOBAL (no declaration)
+        namesArray = Object.values(myData.names);
+        metaDataArray = Object.values(myData.metadata);
+        samplesArray = Object.values(myData.samples);
 
+        console.log(`Samples array 0 as ${samplesArray[0].id}`);
         // Use the imported namesArray to populate the dropdown menu
         for (let i = 0; i < namesArray.length; i++) {
             d3.select("#selDataset")
@@ -115,7 +118,11 @@ function init() {
                 .property('value', namesArray[i]);
         } 
 
-        // initPlot();
+        // First sample ID.  Set up initial dashboard with it
+        var firstID = namesArray[0];
+        // console.log(`firstID is ${firstID}`);
+
+        barPlot(firstID);
     });
 }
 
