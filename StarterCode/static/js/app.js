@@ -40,20 +40,22 @@
 // * Use `otu_ids` as the labels.
 // * Use `otu_labels` as the hovertext.
 function barPlot(myID) {
-    let values = samplesArray.filter(s => s.id == myID);
-    console.log(`barPlot sampleValues is ${values[0].otu_ids}`);
+    let mySamples = samplesArray.filter(s => s.id == myID);
+    console.log(`barPlot sampleValues is ${mySamples[0].otu_ids}`);
     let title = `Test Title`;
-    let labels = samplesArray[0]['otu_ids'];
-    // let values = samplesArray[0]['sample_values'];
-    let hovertext = samplesArray[0]['otu_labels'];
+    let labels = mySamples[0]['otu_ids'];
+    let values = mySamples[0]['sample_values'];
+    let hovertext = mySamples[0]['otu_labels'];
 
     let trace1 = {
-    x: values[0],
-    y: labels,
-    text: hovertext,
-    type: "bar",
-    orientation: "h"
-    };
+        x: values,
+        // x: mySamples[0].sample_values,
+        y: labels,
+        // y: mySamples[0].otu_ids,
+        text: hovertext,
+        type: "bar",
+        orientation: "h"
+        };
     let data = [trace1];
 
     let layout = {
@@ -122,7 +124,8 @@ function init() {
         var firstID = namesArray[0];
         // console.log(`firstID is ${firstID}`);
 
-        barPlot(firstID);
+        // barPlot(firstID);
+        barPlot("943");
     });
 }
 
