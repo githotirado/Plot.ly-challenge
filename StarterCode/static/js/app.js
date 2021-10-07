@@ -1,68 +1,39 @@
-// // Use d3 library to read in samples.js
-// const bioSamples = d3.json('samples.json');
-
-// // Allow time for promise to complete.
-// bioSamples.then(function(a) {
-// 	// console.log(a.samples[0]['otu_ids']);
-//     console.log(a);
-//     var namesArray = Object.values(a.names);
-//     var metaDataArray = Object.values(a.metadata);
-//     var samplesArray = Object.values(a.samples);
-//     // console.log(`namesArray is ${namesArray}`);
-   
-//     // console.log(`name is ${a.names[0]}`);
-//     // console.log(`Metadata ethnicity is ${a.metadata[0]['ethnicity']}`);
-//     // console.log(`otu_ids are ${a.samples[0]['otu_ids']}`)
-//     // console.log(`sample_values are ${a.samples[0]['sample_values']}`);
-//     // console.log(`otu_labels are ${a.samples[0]['otu_labels']}`)
-//     // for (i = 0; i < names.length; i++) {
-
-//     // }
-
 //     initPlot();
-
-//     // Use the imported namesArray to populate the dropdown menu
-//     for (let i = 0; i < namesArray.length; i++) {
-//         d3.select("#selDataset")
-//             .append("option")
-//             .text(namesArray[i])
-//             .property('value', namesArray[i]);
-//     }    
-
-//     // Add an element and/or style it:  
+  
+//     // How to Add an element and/or style it:  
 //     // First, var li_new = d3.select(ID/class).append("li")
 //     // Li_new.text("This is the new item").style("color","red"); 
 
-
-
-// For bar chart:
-// * Use `sample_values` as the values.
-// * Use `otu_ids` as the labels.
-// * Use `otu_labels` as the hovertext.
-function barPlot(myID) {
+function PlotCharts(myID) {
+    // Filter for the array with records containing myID
     let mySamples = samplesArray.filter(s => s.id == myID);
-    console.log(`barPlot sampleValues is ${mySamples[0].otu_ids}`);
-    let title = `Test Title`;
-    let labels = mySamples[0]['otu_ids'];
-    let values = mySamples[0]['sample_values'];
-    let hovertext = mySamples[0]['otu_labels'];
+    console.log(mySamples);
 
-    let trace1 = {
+    // Already sorted by sample_values, so take top 10 for items to map
+        // For bar chart (use 'reverse()' to have taller bars on top):
+        // * Use `sample_values` as the values.
+        // * Use `otu_ids` as the labels, mapping "OTU " in front of each number
+        // * Use `otu_labels` as the hovertext.
+    let title = `Test Title`;
+    let labels = mySamples[0]['otu_ids'].slice(0, 10).map(a => "OTU " + a).reverse();
+    let values = mySamples[0]['sample_values'].slice(0, 10).reverse();
+    let hovertext = mySamples[0]['otu_labels'].slice(0, 10).reverse();
+    
+    // Plot the horizontal bar chart
+    let traceBar = {
         x: values,
-        // x: mySamples[0].sample_values,
         y: labels,
-        // y: mySamples[0].otu_ids,
         text: hovertext,
         type: "bar",
         orientation: "h"
         };
-    let data = [trace1];
+    let dataBar = [traceBar];
 
-    let layout = {
-    title: title
+    let layoutBar = {
+        title: title
     };
     
-    Plotly.newPlot("bar", data, layout);
+    Plotly.newPlot("bar", dataBar, layoutBar);
 }
 
 //     // Demographic information
@@ -100,19 +71,19 @@ function barPlot(myID) {
 // });
 
 function init() {
-    // Use d3 library to read in samples.js
+    // Use d3 library to read in samples.json
     const bioSamples = d3.json('samples.json');
 
-    // Allow time for promise to complete.
+    // Set up the promise, set up initial elements when complete
     bioSamples.then(function(myData) {
         console.log(myData);
-        // Capture each top level array. Leave GLOBAL (no declaration)
+        // Capture each top level array. !! Leave as GLOBAL (no declaration)
+        //   for access by other functions!!
         namesArray = Object.values(myData.names);
         metaDataArray = Object.values(myData.metadata);
         samplesArray = Object.values(myData.samples);
 
-        console.log(`Samples array 0 as ${samplesArray[0].id}`);
-        // Use the imported namesArray to populate the dropdown menu
+        // Use the namesArray values to populate the dropdown menu
         for (let i = 0; i < namesArray.length; i++) {
             d3.select("#selDataset")
                 .append("option")
@@ -120,12 +91,10 @@ function init() {
                 .property('value', namesArray[i]);
         } 
 
-        // First sample ID.  Set up initial dashboard with it
+        // Get first subject ID number.  Set up initial dashboard/charts with it
         var firstID = namesArray[0];
-        // console.log(`firstID is ${firstID}`);
-
-        // barPlot(firstID);
-        barPlot("943");
+        PlotCharts(firstID);
+        // PlotCharts("943");
     });
 }
 
