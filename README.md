@@ -1,7 +1,10 @@
 # Plot.ly-challenge
-Belly Button Biodiversity dashboarding
+Belly Button Biodiversity Dashboard
 
-This exercise took a catalog of microbial species that have been known to reside in the human belly button.  Each species is given an OTU (operational taxonomic unit) for the purposes of cataloguing.
+This exercise took a catalog of microbial species that have been known to reside in the human belly button.  Each species is given an OTU (operational taxonomic unit) for the purposes of cataloguing.  A relative few are known to be highly prevalent in over 70% of human beings while the rest are fairly rare.  The dashboard helps to visualize the presence of these microbes for each test subject ID number.
+
+# Published web page
+https://githotirado.github.io/Plot.ly-challenge/
 
 # Observations
 Mainly the bubble chart displayed the distribution of all of the species.  A relative few were very prevalent in the human belly button as indicated by the very large size of the data points.  The majority of other species were present but more rare in appearance as noted by their much smaller sphere points.
